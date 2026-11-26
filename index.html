@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>WJ Stats</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f2f2f7" media="(prefers-color-scheme: light)">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="WJ Stats">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="preload" href="fonts/Inter.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="dash">
+  <header>
+    <h1>wanjasni.my</h1>
+    <div class="status">
+      <span id="updated"></span>
+      <button id="refresh" type="button" aria-label="Refresh">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12a8 8 0 1 1-2.3-5.6"/><path d="M20 4v5h-5"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <section class="tiles" aria-label="Today">
+    <article class="card tile">
+      <svg viewBox="0 0 24 24" class="ico green" aria-hidden="true"><circle cx="12" cy="12" r="9" class="halo"/><circle cx="12" cy="12" r="4.5" class="dot"/></svg>
+      <strong id="activeNow">–</strong><span>Active, 30 min</span>
+    </article>
+    <article class="card tile">
+      <svg viewBox="0 0 24 24" class="ico blue" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.5 3.6-7 8-7s8 2.500 8 7"/></svg>
+      <strong id="visitorsToday">–</strong><span>Visitors today</span>
+    </article>
+    <article class="card tile">
+      <svg viewBox="0 0 24 24" class="ico teal" aria-hidden="true"><path d="M12 3c-5 0-9 3.400-9 7.700 0 2.100 1 4 2.600 5.400L4 21l5.200-2.600c.9.200 1.8.300 2.800.3 5 0 9-3.400 9-8S17 3 12 3Z"/></svg>
+      <strong id="whatsappToday">–</strong><span>WhatsApp today</span>
+    </article>
+    <article class="card tile">
+      <svg viewBox="0 0 24 24" class="ico pink" aria-hidden="true"><circle cx="9" cy="17" r="4"/><path d="M13 17V3c1 3.500 3.500 5 6.500 5"/></svg>
+      <strong id="tiktokToday">–</strong><span>TikTok today</span>
+    </article>
+  </section>
+
+  <section class="card chart-card">
+    <h2>Visitors, last 7 days</h2>
+    <p class="hero" id="visitors7">–</p>
+    <div id="chart" tabindex="0" role="img" aria-label="Daily visitors for the last 7 days"></div>
+    <table id="chartTable" class="sr-only"></table>
+  </section>
+
+  <section class="panels">
+    <article class="card"><h2>Top pages, 7 days</h2><ul id="topPages" class="bars"></ul></article>
+    <article class="card"><h2>Sources, 7 days</h2><ul id="sources" class="bars alt"></ul></article>
+  </section>
+
+  <section class="card wa">
+    <h2>WhatsApp clicks by button, 7 days</h2>
+    <ul id="waButtons"></ul>
+  </section>
+
+  <footer>
+    <span id="mode">Sample data, not your real numbers</span>
+    <span id="screenSize"></span>
+    <span id="installHint" hidden></span>
+    <button id="install" type="button" hidden>Install app</button>
+  </footer>
+</main>
+<script src="app.js"></script>
+</body>
+</html>

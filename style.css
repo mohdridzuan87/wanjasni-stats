@@ -1,0 +1,88 @@
+/* Inter (SIL Open Font License), a close match for Apple's system font, which may not be used here. */
+@font-face { font-family: "InterApp"; src: url("fonts/Inter.ttf") format("truetype"); font-weight: 100 900; font-display: swap; }
+
+:root {
+  --bg: #f2f2f7; --card: #ffffff; --text: #000000; --muted: #6c6c70; --grid: #e5e5ea;
+  --blue: #007aff; --purple: #9f44d3; --green: #248a3d; --teal: #00838f; --pink: #e0224f;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #000000; --card: #1c1c1e; --text: #ffffff; --muted: #98989f; --grid: #38383a;
+    --blue: #0a84ff; --purple: #bf5af2; --green: #30d158; --teal: #63e6e2; --pink: #ff375f;
+  }
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { background: var(--bg); }
+body {
+  font-family: "InterApp", system-ui, sans-serif; color: var(--text); background: var(--bg);
+  -webkit-font-smoothing: antialiased; -webkit-tap-highlight-color: transparent;
+}
+ul { list-style: none; }
+
+/* Phone and cover screen: one scrolling column. */
+.dash {
+  display: flex; flex-direction: column; gap: 10px; min-height: 100vh; min-height: 100dvh;
+  max-width: 1100px; margin: 0 auto;
+  padding: max(12px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right))
+           max(12px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+}
+header { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 0 6px; }
+h1 { font-size: 22px; font-weight: 700; letter-spacing: -0.02em; }
+.status { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--muted); }
+#refresh { width: 36px; height: 36px; border: 0; border-radius: 50%; background: var(--card); display: grid; place-items: center; cursor: pointer; }
+#refresh svg { width: 18px; height: 18px; fill: none; stroke: var(--blue); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+#refresh:active { transform: scale(0.94); }
+
+.card { background: var(--card); border-radius: 22px; padding: 14px 18px; min-width: 0; }
+h2 { font-size: 12px; font-weight: 600; color: var(--muted); }
+
+.tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.tile { display: flex; flex-direction: column; }
+.ico { width: 22px; height: 22px; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.ico.blue { stroke: var(--blue); } .ico.teal { stroke: var(--teal); } .ico.pink { stroke: var(--pink); }
+.ico .halo { fill: var(--green); opacity: 0.25; stroke: none; } .ico .dot { fill: var(--green); stroke: none; }
+.tile strong { font-size: 34px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.15; margin-top: 8px; }
+.tile span { font-size: 12px; font-weight: 500; color: var(--muted); }
+
+.chart-card { display: flex; flex-direction: column; height: 250px; }
+.hero { font-size: 28px; font-weight: 700; letter-spacing: -0.02em; }
+#chart { flex: 1; min-height: 0; position: relative; touch-action: pan-y; border-radius: 8px; }
+#chart:focus-visible { outline: 2px solid var(--blue); }
+#chart svg { position: absolute; inset: 0; display: block; overflow: visible; }
+#chart text { font-size: 11px; fill: var(--muted); }
+#chart text.on { fill: var(--text); font-weight: 600; }
+.tip {
+  position: absolute; top: 0; transform: translateX(-50%); pointer-events: none; white-space: nowrap;
+  background: var(--text); color: var(--card); font-size: 12px; font-weight: 600; padding: 5px 9px; border-radius: 9px;
+}
+
+.panels { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; }
+.bars li { display: grid; grid-template-columns: minmax(0, 6.5em) minmax(0, 1fr) 3em; align-items: center; gap: 8px; font-size: 13px; margin-top: 8px; }
+.bars .name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.bars .track i { display: block; height: 6px; border-radius: 3px; background: var(--blue); }
+.bars.alt .track i { background: var(--purple); }
+.bars b { text-align: right; font-weight: 600; font-variant-numeric: tabular-nums; }
+
+.wa ul { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 12px; margin-top: 8px; font-size: 13px; }
+.wa li b { font-weight: 700; margin-left: 5px; }
+.wa li::before { content: ""; display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--green); margin-right: 7px; vertical-align: 1px; }
+
+footer { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 4px 14px; font-size: 11px; color: var(--muted); text-align: center; }
+#install { border: 0; border-radius: 999px; background: var(--blue); color: #fff; font: 600 12px "InterApp", system-ui, sans-serif; padding: 8px 16px; cursor: pointer; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+[hidden] { display: none !important; }
+
+/* Wide but short (phone sideways): more columns, still scrolls. */
+@media (min-width: 600px) {
+  .tiles { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .panels { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .wa ul { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+/* Unfolded inner screen and tablets: fill the screen exactly, the chart takes the spare height.
+   Two equal columns keep text clear of the centre fold. */
+@media (min-width: 600px) and (min-height: 560px) {
+  .dash { height: 100vh; height: 100dvh; }
+  .chart-card { flex: 1 1 0; height: auto; min-height: 170px; }
+}
