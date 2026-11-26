@@ -1,5 +1,5 @@
 // Network first, so updates show up straight away; the saved copy is only used when offline.
-const CACHE = "wj-stats-v3";
+const CACHE = "wj-stats-v4";
 const SHELL = ["./", "index.html", "style.css", "map.js", "app.js", "manifest.webmanifest", "fonts/Inter.ttf", "icons/icon-192.png"];
 
 self.addEventListener("install", e => {

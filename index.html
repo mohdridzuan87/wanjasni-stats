@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>WJ Stats</title>
 <meta name="robots" content="noindex, nofollow">
+<!-- The app may only talk to itself and to Google Apps Script, so the key can't be sent anywhere else. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://script.google.com https://script.googleusercontent.com; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#f2f2f7" media="(prefers-color-scheme: light)">
@@ -16,7 +19,7 @@
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <link rel="preload" href="fonts/Inter.ttf" as="font" type="font/ttf" crossorigin>
-<link rel="stylesheet" href="style.css?v=3">
+<link rel="stylesheet" href="style.css?v=4">
 </head>
 <body>
 <main class="dash">
@@ -26,6 +29,9 @@
       <span id="updated"></span>
       <button id="refresh" type="button" aria-label="Refresh">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12a8 8 0 1 1-2.3-5.6"/><path d="M20 4v5h-5"/></svg>
+      </button>
+      <button id="settings" type="button" aria-label="Connection settings">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2.5"/><circle cx="8" cy="17" r="2.5"/></svg>
       </button>
     </div>
   </header>
@@ -79,6 +85,7 @@
   <section class="card wa">
     <h2>WhatsApp clicks by button, 7 days</h2>
     <ul id="waButtons"></ul>
+    <p id="waNote" class="empty" hidden></p>
   </section>
 
   <footer>
@@ -86,9 +93,25 @@
     <span id="screenSize"></span>
     <span id="installHint" hidden></span>
     <button id="install" type="button" hidden>Install app</button>
+    <button id="connectCta" type="button" hidden>Connect real data</button>
   </footer>
 </main>
-<script src="map.js?v=3"></script>
-<script src="app.js?v=3"></script>
+
+<dialog id="sheet" aria-labelledby="sheetTitle">
+  <form id="connectForm" novalidate>
+    <h2 id="sheetTitle">Connect your data</h2>
+    <p>Paste the two values from your Google script. They stay on this device only.</p>
+    <label for="feedUrl">Web app address</label>
+    <input id="feedUrl" type="url" inputmode="url" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="https://script.google.com/macros/s/…/exec">
+    <label for="feedKey">Secret key</label>
+    <input id="feedKey" type="password" autocomplete="off" autocapitalize="off" spellcheck="false">
+    <p id="formStatus" role="status"></p>
+    <button type="submit" id="connect" class="primary">Connect</button>
+    <button type="button" id="disconnect" class="plain danger" hidden>Disconnect this device</button>
+    <button type="button" id="closeSheet" class="plain">Cancel</button>
+  </form>
+</dialog>
+<script src="map.js?v=4"></script>
+<script src="app.js?v=4"></script>
 </body>
 </html>
