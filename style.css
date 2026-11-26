@@ -57,7 +57,27 @@ h2 { font-size: 12px; font-weight: 600; color: var(--muted); }
   background: var(--text); color: var(--card); font-size: 12px; font-weight: 600; padding: 5px 9px; border-radius: 9px;
 }
 
+.middle { display: flex; flex-direction: column; gap: 10px; }
 .panels { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; }
+
+.geo { display: flex; flex-direction: column; gap: 6px; }
+#mapPick { font-size: 13px; color: var(--muted); }
+#mapPick b { font-size: 17px; font-weight: 700; color: var(--text); letter-spacing: -0.01em; }
+.maps { display: grid; grid-template-columns: minmax(0, 11fr) minmax(0, 9fr); gap: 10px; height: 230px; }
+figure { display: flex; flex-direction: column; min-height: 0; }
+.map { flex: 1; position: relative; min-height: 0; }
+.map svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.map path { stroke: var(--card); stroke-width: 1px; vector-effect: non-scaling-stroke; cursor: pointer; }
+.map path.outline { fill: none; stroke: var(--text); stroke-width: 1.6px; pointer-events: none; }
+.map .marker { cursor: pointer; stroke: var(--muted); stroke-width: 1px; vector-effect: non-scaling-stroke; }
+.map .marker.on { stroke: var(--text); stroke-width: 2px; }
+figcaption { font-size: 11px; color: var(--muted); text-align: center; }
+.geo .bars li { cursor: pointer; border-radius: 6px; margin-top: 3px; }
+.geo .bars li:focus-visible { outline: 2px solid var(--blue); }
+.geo .bars li { grid-template-columns: minmax(0, 8em) minmax(0, 1fr) 3em; }
+.abroad { font-size: 12px; margin-top: 4px; }
+.credit { font-size: 10px; color: var(--muted); }
+.credit a { color: inherit; }
 .bars li { display: grid; grid-template-columns: minmax(0, 6.5em) minmax(0, 1fr) 3em; align-items: center; gap: 8px; font-size: 13px; margin-top: 8px; }
 .bars .name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .bars .track i { display: block; height: 6px; border-radius: 3px; background: var(--blue); }
@@ -80,9 +100,32 @@ footer { display: flex; flex-wrap: wrap; justify-content: center; align-items: c
   .wa ul { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }
 
-/* Unfolded inner screen and tablets: fill the screen exactly, the chart takes the spare height.
-   Two equal columns keep text clear of the centre fold. */
+/* Unfolded inner screen and tablets: fill the screen exactly. Chart, pages and sources on the left,
+   the map on the right. Two equal columns keep text clear of the centre fold. */
 @media (min-width: 600px) and (min-height: 560px) {
-  .dash { height: 100vh; height: 100dvh; }
-  .chart-card { flex: 1 1 0; height: auto; min-height: 170px; }
+  .dash { height: 100vh; height: 100dvh; gap: 8px; }
+  .middle {
+    flex: 1 1 0; min-height: 0; display: grid; gap: 8px;
+    grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: minmax(0, 1fr) auto;
+    grid-template-areas: "chart geo" "panels geo";
+  }
+  .chart-card { grid-area: chart; height: auto; min-height: 0; }
+  .geo { grid-area: geo; min-height: 0; overflow: hidden; }
+  .panels { grid-area: panels; grid-template-columns: minmax(0, 1fr); }
+  .maps { flex: 1 1 0; height: auto; min-height: 90px; }
+}
+
+/* Shorter unfolded screens: tighten everything so it still fits without scrolling. */
+@media (min-width: 600px) and (min-height: 560px) and (max-height: 739px) {
+  .card { padding: 9px 14px; border-radius: 18px; }
+  .tile { display: grid; grid-template-columns: auto 1fr; align-items: center; column-gap: 8px; }
+  .tile strong { font-size: 26px; margin: 0; }
+  .tile span { grid-column: 1 / -1; font-size: 11px; }
+  .hero { font-size: 22px; }
+  .bars li { font-size: 12px; margin-top: 3px; }
+  .geo { gap: 3px; }
+  .geo .bars li { margin-top: 1px; }
+  .geo .bars li:nth-child(n+4) { display: none; }
+  .abroad { font-size: 11px; margin-top: 2px; }
+  .wa ul { margin-top: 4px; }
 }

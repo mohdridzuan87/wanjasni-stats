@@ -7,6 +7,10 @@ const SAMPLE = {
   topPages: [["Home", 162], ["Vios price", 57], ["Yaris price", 41], ["Hilux price", 28]],
   sources: [["TikTok", 146], ["Google", 63], ["Direct", 55], ["Other", 17]],
   waButtons: [["Floating", 14], ["Calculator", 9], ["Model card", 6], ["Other", 4]],
+  // State names must match the ones in map.js.
+  states: [["Selangor", 104], ["Kuala Lumpur", 71], ["Johor", 28], ["Penang", 17], ["Perak", 11], ["Sabah", 9],
+    ["Sarawak", 8], ["Negeri Sembilan", 7], ["Kedah", 5], ["Melaka", 4], ["Pahang", 3], ["Kelantan", 2], ["Terengganu", 1]],
+  countries: [["Singapore", 7], ["Brunei", 2], ["Other", 2]],
 };
 
 const $ = id => document.getElementById(id);
@@ -82,7 +86,70 @@ function pickAt(clientX) {
 }
 const clearPick = () => { picked = null; drawChart(); };
 
+// Visitor map: one hue, stronger colour = more visitors. Grey = none.
+const SMALL = ["Kuala Lumpur", "Putrajaya", "Labuan"]; // too small to see or tap without a marker
+let pickedState = null;
+
+function drawMap() {
+  const counts = new Map(data.states);
+  const max = Math.max(1, ...counts.values());
+  const paint = name => {
+    const v = counts.get(name) || 0;
+    // square root, so states with only a few visitors still show up
+    return v ? `style="fill:var(--blue);fill-opacity:${(0.2 + 0.8 * Math.sqrt(v / max)).toFixed(2)}"` : 'style="fill:var(--grid)"';
+  };
+  for (const [id, group] of [["mapPeninsula", MAP.peninsula], ["mapEast", MAP.east]]) {
+    const shapes = group.states.map(s => `<path d="${s.d}" data-state="${s.name}" ${paint(s.name)}/>`).join("");
+    const chosen = group.states.find(s => s.name === pickedState);
+    // A solid backing under each marker keeps its see-through shade from mixing with the state behind it.
+    const markers = group.states.filter(s => SMALL.includes(s.name)).map(s => {
+      const [cx, cy] = s.at, on = s.name === pickedState;
+      return `<circle cx="${cx}" cy="${cy}" r="24" style="fill:var(--card)"/>
+        <circle cx="${cx}" cy="${cy}" r="21" data-state="${s.name}" class="marker${on ? " on" : ""}" ${paint(s.name)}/>`;
+    }).join("");
+    $(id).innerHTML = `<svg viewBox="-30 -30 ${group.w + 60} ${group.h + 60}" role="img" aria-label="Visitors by state">
+      ${shapes}${chosen ? `<path d="${chosen.d}" class="outline"/>` : ""}${markers}</svg>`;
+  }
+  const [topName, topValue] = [...data.states].sort((a, b) => b[1] - a[1])[0] || ["No visits yet", 0];
+  const name = pickedState ?? topName;
+  const value = pickedState ? counts.get(pickedState) || 0 : topValue;
+  $("mapPick").replaceChildren(el("b", name), ` · ${num(value)} visitors${pickedState ? "" : " (most)"}`);
+}
+
+function selectState(name) {
+  pickedState = name === pickedState ? null : name;
+  drawMap();
+}
+
+function renderGeo() {
+  const sorted = [...data.states].sort((a, b) => b[1] - a[1]);
+  barList($("states"), sorted.slice(0, 5));
+  [...$("states").children].forEach((li, i) => {
+    li.tabIndex = 0;
+    li.setAttribute("role", "button");
+    li.addEventListener("click", () => selectState(sorted[i][0]));
+    li.addEventListener("keydown", e => {
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); selectState(sorted[i][0]); }
+    });
+  });
+  $("countries").textContent = "Outside Malaysia: " + data.countries.map(([c, v]) => `${c} ${num(v)}`).join(" · ");
+  $("geoTable").replaceChildren(...[...sorted, ...data.countries].map(([n, v]) => {
+    const tr = el("tr");
+    tr.append(el("th", n), el("td", num(v)));
+    return tr;
+  }));
+  drawMap();
+}
+
+for (const id of ["mapPeninsula", "mapEast"]) {
+  $(id).addEventListener("click", e => {
+    const hit = e.target.closest("[data-state]");
+    if (hit) selectState(hit.dataset.state);
+  });
+}
+
 function render() {
+  renderGeo();
   for (const k of ["activeNow", "visitorsToday", "whatsappToday", "tiktokToday", "visitors7"]) $(k).textContent = num(data[k]);
   barList($("topPages"), data.topPages);
   barList($("sources"), data.sources);

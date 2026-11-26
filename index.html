@@ -49,17 +49,32 @@
     </article>
   </section>
 
-  <section class="card chart-card">
-    <h2>Visitors, last 7 days</h2>
-    <p class="hero" id="visitors7">–</p>
-    <div id="chart" tabindex="0" role="img" aria-label="Daily visitors for the last 7 days"></div>
-    <table id="chartTable" class="sr-only"></table>
-  </section>
+  <div class="middle">
+    <section class="card chart-card">
+      <h2>Visitors, last 7 days</h2>
+      <p class="hero" id="visitors7">–</p>
+      <div id="chart" tabindex="0" role="img" aria-label="Daily visitors for the last 7 days"></div>
+      <table id="chartTable" class="sr-only"></table>
+    </section>
 
-  <section class="panels">
-    <article class="card"><h2>Top pages, 7 days</h2><ul id="topPages" class="bars"></ul></article>
-    <article class="card"><h2>Sources, 7 days</h2><ul id="sources" class="bars alt"></ul></article>
-  </section>
+    <section class="card geo">
+      <h2>Visitor map, 7 days · stronger blue means more</h2>
+      <p id="mapPick" aria-live="polite"></p>
+      <div class="maps">
+        <figure><div id="mapPeninsula" class="map"></div><figcaption>Peninsular</figcaption></figure>
+        <figure><div id="mapEast" class="map"></div><figcaption>Sabah, Sarawak, Labuan</figcaption></figure>
+      </div>
+      <ul id="states" class="bars"></ul>
+      <p class="abroad" id="countries"></p>
+      <table id="geoTable" class="sr-only"></table>
+      <p class="credit">Map © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="https://www.geoboundaries.org">geoBoundaries</a> (ODbL)</p>
+    </section>
+
+    <section class="panels">
+      <article class="card"><h2>Top pages, 7 days</h2><ul id="topPages" class="bars"></ul></article>
+      <article class="card"><h2>Sources, 7 days</h2><ul id="sources" class="bars alt"></ul></article>
+    </section>
+  </div>
 
   <section class="card wa">
     <h2>WhatsApp clicks by button, 7 days</h2>
@@ -73,6 +88,7 @@
     <button id="install" type="button" hidden>Install app</button>
   </footer>
 </main>
+<script src="map.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

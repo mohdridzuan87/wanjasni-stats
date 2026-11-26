@@ -1,6 +1,6 @@
 // Network first, so updates show up straight away; the saved copy is only used when offline.
-const CACHE = "wj-stats-v1";
-const SHELL = ["./", "index.html", "style.css", "app.js", "manifest.webmanifest", "fonts/Inter.ttf", "icons/icon-192.png"];
+const CACHE = "wj-stats-v2";
+const SHELL = ["./", "index.html", "style.css", "map.js", "app.js", "manifest.webmanifest", "fonts/Inter.ttf", "icons/icon-192.png"];
 
 self.addEventListener("install", e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(SHELL)).then(() => self.skipWaiting()));
