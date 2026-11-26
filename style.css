@@ -4,11 +4,13 @@
 :root {
   --bg: #f2f2f7; --card: #ffffff; --text: #000000; --muted: #6c6c70; --grid: #e5e5ea;
   --blue: #007aff; --purple: #9f44d3; --green: #248a3d; --teal: #00838f; --pink: #e0224f;
+  --seg: #ececf0; --seg-on: #ffffff;
 }
 @media (prefers-color-scheme: dark) {
   :root {
     --bg: #000000; --card: #1c1c1e; --text: #ffffff; --muted: #98989f; --grid: #38383a;
     --blue: #0a84ff; --purple: #bf5af2; --green: #30d158; --teal: #63e6e2; --pink: #ff375f;
+    --seg: #2c2c2e; --seg-on: #636366;
   }
 }
 
@@ -67,8 +69,15 @@ h2 { font-size: 12px; font-weight: 600; color: var(--muted); }
 .tile strong { font-size: 34px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.15; margin-top: 8px; }
 .tile span { font-size: 12px; font-weight: 500; color: var(--muted); }
 
-.chart-card { display: flex; flex-direction: column; height: 250px; }
-.hero { font-size: 28px; font-weight: 700; letter-spacing: -0.02em; }
+.chart-card { display: flex; flex-direction: column; height: 280px; }
+.hero { font-size: 28px; font-weight: 700; letter-spacing: -0.02em; margin-top: 8px; }
+.hero small { font-size: 12px; font-weight: 600; letter-spacing: 0; color: var(--muted); margin-left: 4px; }
+
+/* Apple-style segmented control */
+.segmented { flex: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)) minmax(0, 1.35fr); gap: 2px; padding: 2px; border-radius: 10px; background: var(--seg); }
+.segmented button { border: 0; border-radius: 8px; padding: 6px 2px; background: none; color: var(--text); font: 500 12px "InterApp", system-ui, sans-serif; white-space: nowrap; cursor: pointer; }
+.segmented button[aria-pressed="true"] { background: var(--seg-on); font-weight: 600; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.18); }
+.segmented button:focus-visible { outline: 2px solid var(--blue); }
 #chart { flex: 1; min-height: 0; position: relative; touch-action: pan-y; border-radius: 8px; }
 #chart:focus-visible { outline: 2px solid var(--blue); }
 #chart svg { position: absolute; inset: 0; display: block; overflow: visible; }
@@ -112,7 +121,8 @@ figcaption { font-size: 11px; color: var(--muted); text-align: center; }
 
 footer { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 4px 14px; font-size: 11px; color: var(--muted); text-align: center; }
 #install, #connectCta { border: 0; border-radius: 999px; background: var(--blue); color: #fff; font: 600 12px "InterApp", system-ui, sans-serif; padding: 8px 16px; cursor: pointer; }
-.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+/* display:block matters: a table would otherwise ignore the 1px height and stretch the page. */
+.sr-only { display: block; position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 [hidden] { display: none !important; }
 
 /* Wide but short (phone sideways): more columns, still scrolls. */
@@ -143,7 +153,8 @@ footer { display: flex; flex-wrap: wrap; justify-content: center; align-items: c
   .tile { display: grid; grid-template-columns: auto 1fr; align-items: center; column-gap: 8px; }
   .tile strong { font-size: 26px; margin: 0; }
   .tile span { grid-column: 1 / -1; font-size: 11px; }
-  .hero { font-size: 22px; }
+  .hero { font-size: 22px; margin-top: 3px; }
+  .segmented button { padding: 3px 2px; font-size: 11px; }
   .bars li { font-size: 12px; margin-top: 3px; }
   .geo { gap: 3px; }
   .geo .bars li { margin-top: 1px; }

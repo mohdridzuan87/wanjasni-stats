@@ -19,7 +19,7 @@
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <link rel="preload" href="fonts/Inter.ttf" as="font" type="font/ttf" crossorigin>
-<link rel="stylesheet" href="style.css?v=4">
+<link rel="stylesheet" href="style.css?v=5">
 </head>
 <body>
 <main class="dash">
@@ -57,14 +57,19 @@
 
   <div class="middle">
     <section class="card chart-card">
-      <h2>Visitors, last 7 days</h2>
-      <p class="hero" id="visitors7">–</p>
-      <div id="chart" tabindex="0" role="img" aria-label="Daily visitors for the last 7 days"></div>
+      <div id="periods" class="segmented" role="group" aria-label="Show visitors for">
+        <button type="button" data-period="today">Today</button>
+        <button type="button" data-period="7d">7 days</button>
+        <button type="button" data-period="14d">14 days</button>
+        <button type="button" data-period="month">This month</button>
+      </div>
+      <p class="hero"><span id="visitors">–</span> <small id="visitorsLabel"></small></p>
+      <div id="chart" tabindex="0" role="img" aria-label="Visitors chart"></div>
       <table id="chartTable" class="sr-only"></table>
     </section>
 
     <section class="card geo">
-      <h2>Visitor map, 7 days · stronger blue means more</h2>
+      <h2 id="mapTitle">Visitor map</h2>
       <p id="mapPick" aria-live="polite"></p>
       <div class="maps">
         <figure><div id="mapPeninsula" class="map"></div><figcaption>Peninsular</figcaption></figure>
@@ -77,13 +82,13 @@
     </section>
 
     <section class="panels">
-      <article class="card"><h2>Top pages, 7 days</h2><ul id="topPages" class="bars"></ul></article>
-      <article class="card"><h2>Sources, 7 days</h2><ul id="sources" class="bars alt"></ul></article>
+      <article class="card"><h2 id="topTitle">Top pages</h2><ul id="topPages" class="bars"></ul></article>
+      <article class="card"><h2 id="sourcesTitle">Sources</h2><ul id="sources" class="bars alt"></ul></article>
     </section>
   </div>
 
   <section class="card wa">
-    <h2>WhatsApp clicks by button, 7 days</h2>
+    <h2 id="waTitle">WhatsApp clicks by button</h2>
     <ul id="waButtons"></ul>
     <p id="waNote" class="empty" hidden></p>
   </section>
@@ -111,7 +116,7 @@
     <button type="button" id="closeSheet" class="plain">Cancel</button>
   </form>
 </dialog>
-<script src="map.js?v=4"></script>
-<script src="app.js?v=4"></script>
+<script src="map.js?v=5"></script>
+<script src="app.js?v=5"></script>
 </body>
 </html>
