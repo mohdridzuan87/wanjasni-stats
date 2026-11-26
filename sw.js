@@ -1,9 +1,10 @@
 // Network first, so updates show up straight away; the saved copy is only used when offline.
-const CACHE = "wj-stats-v2";
+const CACHE = "wj-stats-v3";
 const SHELL = ["./", "index.html", "style.css", "map.js", "app.js", "manifest.webmanifest", "fonts/Inter.ttf", "icons/icon-192.png"];
 
 self.addEventListener("install", e => {
-  e.waitUntil(caches.open(CACHE).then(c => c.addAll(SHELL)).then(() => self.skipWaiting()));
+  const fresh = SHELL.map(url => new Request(url, { cache: "reload" }));
+  e.waitUntil(caches.open(CACHE).then(c => c.addAll(fresh)).then(() => self.skipWaiting()));
 });
 
 self.addEventListener("activate", e => {
@@ -16,7 +17,8 @@ self.addEventListener("fetch", e => {
   const { request } = e;
   // Only the app's own files are cached. Data requests to other addresses are never stored here.
   if (request.method !== "GET" || new URL(request.url).origin !== location.origin) return;
-  e.respondWith(fetch(request)
+  // "no-cache" makes the browser check with the server, so new and old files are never mixed after an update.
+  e.respondWith(fetch(request, { cache: "no-cache" })
     .then(res => {
       if (res.ok) { const copy = res.clone(); caches.open(CACHE).then(c => c.put(request, copy)); }
       return res;
