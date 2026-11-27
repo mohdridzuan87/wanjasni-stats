@@ -1,6 +1,6 @@
 {
-  "name": "WJ Stats",
-  "short_name": "WJ Stats",
+  "name": "wanjasni.my stats",
+  "short_name": "wanjasni.my stats",
   "description": "Dashboard for wanjasni.my",
   "start_url": "./",
   "scope": "./",
